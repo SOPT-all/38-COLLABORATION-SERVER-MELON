@@ -12,25 +12,25 @@ public record CommonResponse<T>(
         T data
 ) {
 
-    public static <T> CommonResponse<T> success(SuccessCode successCode, T data) {
+    public static <T> CommonResponse<T> success(final SuccessCode successCode, final T data) {
         return new CommonResponse<>(200, successCode.name(), successCode.getMessage(), data);
     }
 
-    public static CommonResponse<Void> success(SuccessCode successCode) {
+    public static CommonResponse<Void> success(final SuccessCode successCode) {
         return success(successCode, null);
     }
 
-    public static CommonResponse<Void> error(ErrorCode errorCode) {
+    public static CommonResponse<Void> error(final ErrorCode errorCode) {
         return new CommonResponse<>(errorCode.getStatus().value(), errorCode.name(), errorCode.getMessage(), null);
     }
 
-    public static CommonResponse<Void> error(Exception e) {
+    public static CommonResponse<Void> error(final Exception e) {
         GlobalErrorCode errorMessage = GlobalErrorCode.INTERNAL_SERVER_ERROR;
         String consoleMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
         return new CommonResponse<>(errorMessage.getStatus().value(), consoleMessage, errorMessage.getMessage(), null);
     }
 
-    public static CommonResponse<Void> validationError(String validationErrorMessage) {
+    public static CommonResponse<Void> validationError(final String validationErrorMessage) {
         return new CommonResponse<>(HttpStatus.BAD_REQUEST.value(), "VALIDATION_ERROR", validationErrorMessage, null);
     }
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<CommonResponse<?>> handleCustomException(BusinessException e) {
+    public ResponseEntity<CommonResponse<?>> handleCustomException(final BusinessException e) {
         ErrorCode errorCode = e.getErrorCode();
 
         return ResponseEntity
@@ -24,25 +24,25 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<CommonResponse<?>> handleException(Exception e) {
+    public ResponseEntity<CommonResponse<?>> handleException(final Exception e) {
         return ResponseEntity
                 .status(GlobalErrorCode.INTERNAL_SERVER_ERROR.getStatus())
                 .body(CommonResponse.error(e));
     }
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<CommonResponse<?>> handleBindException(BindException exception) {
+    public ResponseEntity<CommonResponse<?>> handleBindException(final BindException exception) {
 
         return handleValidationException(exception);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<CommonResponse<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<CommonResponse<?>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception) {
 
         return handleValidationException(exception);
     }
 
-    private ResponseEntity<CommonResponse<?>> handleValidationException(BindException exception) {
+    private ResponseEntity<CommonResponse<?>> handleValidationException(final BindException exception) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
         String message = exception.getBindingResult()
