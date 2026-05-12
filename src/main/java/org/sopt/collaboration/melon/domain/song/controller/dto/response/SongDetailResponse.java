@@ -1,5 +1,7 @@
 package org.sopt.collaboration.melon.domain.song.controller.dto.response;
 
+import static org.sopt.collaboration.melon.global.utils.TimeFormatUtils.formatSeconds;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import org.sopt.collaboration.melon.domain.album.entity.Album;
@@ -38,14 +40,6 @@ public record SongDetailResponse(
                 isLiked,
                 formatSeconds(song.getPlayTime())
         );
-    }
-
-    private static String formatSeconds(int totalSeconds) {
-        int minutes = totalSeconds / 60;
-        int seconds = totalSeconds % 60;
-
-        return String.format("%d:%02d", minutes, seconds);
-
     }
 
     record ArtistInfo(
