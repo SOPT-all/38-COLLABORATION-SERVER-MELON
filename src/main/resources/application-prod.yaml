@@ -18,3 +18,6 @@ spring:
 logging:
   level:
     org.sopt: info
+
+server:
+  forward-headers-strategy: framework
