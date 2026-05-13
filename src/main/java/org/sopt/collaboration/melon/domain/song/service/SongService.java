@@ -20,15 +20,12 @@ public class SongService {
     private final SongDetailRepository songDetailRepository;
 
     public SongWithDetail readWithDetail(Long songId) {
-        Song song = songRepository.findWithAlbum(songId);
+        Song song = songRepository.findWithAlbum(songId)
+                .orElseThrow(SongNotFoundException::new);
+
         SongDetail detail = findDetailByIdOrThrow(songId);
 
         return SongWithDetail.of(song, detail);
-    }
-
-    public Song findByIdOrThrow(Long songId) {
-        return songRepository.findById(songId)
-                .orElseThrow(SongNotFoundException::new);
     }
 
     private SongDetail findDetailByIdOrThrow(Long songId) {
