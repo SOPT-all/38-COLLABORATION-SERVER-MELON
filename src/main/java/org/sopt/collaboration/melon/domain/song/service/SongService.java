@@ -3,7 +3,6 @@ package org.sopt.collaboration.melon.domain.song.service;
 import lombok.RequiredArgsConstructor;
 import org.sopt.collaboration.melon.domain.song.entity.Song;
 import org.sopt.collaboration.melon.domain.song.entity.SongDetail;
-import org.sopt.collaboration.melon.domain.song.exception.SongDetailNotFoundException;
 import org.sopt.collaboration.melon.domain.song.exception.SongNotFoundException;
 import org.sopt.collaboration.melon.domain.song.repository.SongDetailRepository;
 import org.sopt.collaboration.melon.domain.song.repository.SongRepository;
@@ -23,13 +22,13 @@ public class SongService {
         Song song = songRepository.findWithAlbum(songId)
                 .orElseThrow(SongNotFoundException::new);
 
-        SongDetail detail = findDetailByIdOrThrow(songId);
+        SongDetail detail = readDetailOrThrow(songId);
 
         return SongWithDetail.of(song, detail);
     }
 
-    private SongDetail findDetailByIdOrThrow(Long songId) {
+    private SongDetail readDetailOrThrow(Long songId) {
         return songDetailRepository.findById(songId)
-                .orElseThrow(SongDetailNotFoundException::new);
+                .orElseThrow(SongNotFoundException::new);
     }
 }
