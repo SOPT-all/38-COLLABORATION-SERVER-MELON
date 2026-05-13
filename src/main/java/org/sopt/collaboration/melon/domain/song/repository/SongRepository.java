@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface SongRepository extends JpaRepository<Song, Long> {
 
-    @Query("select s from Song s join fetch s.album")
+    @Query("select s from Song s join fetch s.album where s.id = :songId")
     Optional<Song> findWithAlbum(Long songId);
 }
