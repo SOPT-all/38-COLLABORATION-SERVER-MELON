@@ -17,4 +17,11 @@ public interface AlbumArtistRepository extends JpaRepository<AlbumArtist, Long> 
         order by a.album.releaseDate desc
     """)
     List<AlbumArtist> findAllByArtistId(Long artistId);
+
+    @Query("""
+        select a from AlbumArtist a
+        join fetch a.artist
+        where a.albumId in :albumIds
+    """)
+    List<AlbumArtist> findAllByAlbumIdIn(List<Long> albumIds);
 }

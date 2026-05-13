@@ -2,6 +2,7 @@ package org.sopt.collaboration.melon.domain.artist.controller;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.sopt.collaboration.melon.domain.album.entity.Album;
 import org.sopt.collaboration.melon.domain.album.service.AlbumService;
@@ -36,12 +37,13 @@ public class ArtistController {
 
         ArtistWithDetail artist = artistService.readWithDetail(artistId);
         List<Album> recentAlbums = albumService.findAllByArtistId(artistId);
+        Map<Long, List<Artist>> albumArtistMap = albumService.findArtistsAsMap(recentAlbums);
         List<Artist> groupMembers =
                 artist.artist().isGroup() ? artistService.findAllGroupMembers(artistId) : Collections.emptyList();
 
         return CommonResponse.success(
                 ArtistSuccessCode.ARTIST_FOUND,
-                ArtistDetailResponse.of(artist, groupMembers, recentAlbums)
+                ArtistDetailResponse.of(artist, groupMembers, recentAlbums, albumArtistMap)
         );
     }
 }
