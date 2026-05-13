@@ -74,7 +74,7 @@ jobs:
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/collaboration-melon:latest
             sudo docker rm -f springboot || true
-            sudo docker run --env-file home/ubuntu/.env --name springboot --network web -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/collaboration-melon:latest
+            sudo docker run --env-file /home/ubuntu/.env --name springboot --network web -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/collaboration-melon:latest
             sudo docker image prune -f
             sleep 20
             echo "===== springboot container logs ====="
