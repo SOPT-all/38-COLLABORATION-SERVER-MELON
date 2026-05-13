@@ -25,6 +25,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CommonResponse<?>> handleException(final Exception e) {
+
+        e.printStackTrace();
+
         return ResponseEntity
                 .status(GlobalErrorCode.INTERNAL_SERVER_ERROR.getStatus())
                 .body(CommonResponse.error(e));
