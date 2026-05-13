@@ -43,4 +43,8 @@ public class Artist extends BaseTimeEntity {
 
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
+
+    public boolean isGroup() {
+        return type == ArtistType.GROUP;
+    }
 }
