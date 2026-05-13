@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/artists")
 @RequiredArgsConstructor
-public class ArtistController {
+public class ArtistController implements ArtistApi {
 
     private final UserValidator userValidator;
     private final ArtistService artistService;
