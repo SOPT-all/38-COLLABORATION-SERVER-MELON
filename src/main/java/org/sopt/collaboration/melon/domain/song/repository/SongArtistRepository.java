@@ -9,4 +9,8 @@ public interface SongArtistRepository extends JpaRepository<SongArtist, Long> {
 
     @Query("select sa from SongArtist sa join fetch sa.artist where sa.song.id = :songId")
     List<SongArtist> findAllBySongId(Long songId);
+
+    @Query("select sa from SongArtist sa join fetch sa.artist where sa.song.id in :songId")
+    List<SongArtist> findAllBySongIdIn(List<Long> songId);
+
 }
