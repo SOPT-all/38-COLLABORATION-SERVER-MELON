@@ -20,6 +20,7 @@ public interface SongApi {
             @RequestHeader("User-Id") Long userId,
             @PathVariable Long songId
     );
+
     @ApiExceptions({UserNotFoundException.class, SongNotFoundException.class})
     @Operation(summary = "좋아요 토글", description = "좋아요를 추가/삭제 합니다.")
     CommonResponse<LikeResponse> putLiked(

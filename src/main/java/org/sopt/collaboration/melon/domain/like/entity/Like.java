@@ -22,7 +22,8 @@ import org.sopt.collaboration.melon.domain.user.entity.User;
         uniqueConstraints = @UniqueConstraint(
                 name = "uk_likes_user_song",
                 columnNames = {"user_id", "song_id"}
-        ))
+        )
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Like {
 

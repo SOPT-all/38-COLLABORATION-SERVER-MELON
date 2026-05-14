@@ -8,7 +8,7 @@ public record LikeResponse(
         Boolean isLiked
 ) {
 
-    public static LikeResponse of(boolean isLiked) {
+    public static LikeResponse from(boolean isLiked) {
         return new LikeResponse(isLiked);
     }
 }

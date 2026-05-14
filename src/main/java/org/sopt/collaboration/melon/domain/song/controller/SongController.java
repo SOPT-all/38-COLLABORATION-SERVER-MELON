@@ -49,7 +49,12 @@ public class SongController implements SongApi {
             @RequestHeader("User-Id") Long userId,
             @PathVariable Long songId
     ) {
-        Boolean IsLiked = likeService.toggleLike(userId, songId);
-        return CommonResponse.success(IsLiked ? LikeSuccessCode.LIKE_TOGGLE_SUCCEED : LikeSuccessCode.LIKE_TOGGLE_CANCELED, new LikeResponse(IsLiked));
+        userValidator.validate(userId);
+
+        boolean IsLiked = likeService.toggleLike(userId, songId);
+        return CommonResponse.success(
+                IsLiked ? LikeSuccessCode.LIKE_TOGGLE_SUCCEED : LikeSuccessCode.LIKE_TOGGLE_CANCELED,
+                LikeResponse.from(IsLiked)
+        );
     }
 }
