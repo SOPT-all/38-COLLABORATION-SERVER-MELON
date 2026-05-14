@@ -1,9 +1,13 @@
 package org.sopt.collaboration.melon.domain.song.repository;
 
+
+import jakarta.persistence.LockModeType;
 import java.util.List;
+import java.util.Optional;
 import org.sopt.collaboration.melon.domain.song.entity.Song;
 import org.sopt.collaboration.melon.domain.song.entity.SongDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 
 public interface SongDetailRepository extends JpaRepository<SongDetail, Long> {
@@ -37,4 +41,12 @@ public interface SongDetailRepository extends JpaRepository<SongDetail, Long> {
                 join fetch s.album
             """)
     List<Song> readChart();
+
+    @Lock(LockModeType.OPTIMISTIC)
+    @Query("""
+                select sd
+                from SongDetail sd
+                where sd.id = :songId
+            """)
+    Optional<SongDetail> findBySongIdWithLock(Long songId);
 }
