@@ -3,8 +3,7 @@ package org.sopt.collaboration.melon.domain.chart.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.sopt.collaboration.melon.domain.chart.ChartFilterType;
-import org.sopt.collaboration.melon.domain.chart.controller.dto.response.ChartResponse;
-import org.sopt.collaboration.melon.domain.chart.service.vo.ChartSongInfo;
+import org.sopt.collaboration.melon.domain.song.entity.Song;
 import org.sopt.collaboration.melon.domain.song.repository.SongDetailRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +16,13 @@ public class ChartService {
 
     private final SongDetailRepository songDetailRepository;
 
-    public ChartResponse findChartByFilter(final ChartFilterType chartFilterType) {
-        List<ChartSongInfo> chartSongs = switch (chartFilterType) {
+    public List<Song> findChartSongByFilter(final ChartFilterType chartFilterType) {
+        return switch (chartFilterType) {
             case TOP100 -> songDetailRepository.findTop100Chart();
             case HOT100 -> songDetailRepository.findHot100Chart();
             case ABROAD_2006, SWEET -> songDetailRepository.readChart();
         };
-
-        return ChartResponse.of(chartSongs);
     }
+
+
 }

@@ -3,30 +3,28 @@ package org.sopt.collaboration.melon.domain.chart.controller.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
-import org.sopt.collaboration.melon.domain.chart.service.vo.ChartSongInfo;
+import java.util.Map;
+import org.sopt.collaboration.melon.domain.artist.entity.Artist;
+import org.sopt.collaboration.melon.domain.song.entity.Song;
+
 
 public record ChartResponse(
         @Schema(description = "차트 곡 목록")
         List<SongInfo> songs
 ) {
-    public static ChartResponse of(List<ChartSongInfo> chartSongInfos) {
+
+    public static ChartResponse of(List<Song> songs, Map<Long, List<Artist>> artistsMap) {
         return new ChartResponse(
-                chartSongInfos.stream()
-                        .map(song -> new SongInfo(
-                                song.songId(),
-                                song.title(),
-                                new ArtistInfo(
-                                        song.artistId(),
-                                        song.artistName()
-                                ),
-                                song.albumImageUrl()
+                songs.stream()
+                        .map(song -> SongInfo.of(
+                                song,
+                                artistsMap.getOrDefault(song.getId(), List.of())
                         ))
                         .toList()
         );
     }
 
     public record SongInfo(
-
             @Schema(description = "곡 ID", example = "1")
             Long songId,
 
@@ -40,6 +38,17 @@ public record ChartResponse(
             String albumImageUrl
 
     ) {
+
+        public static SongInfo of(Song song, List<Artist> artists) {
+            Artist artist = artists.getFirst();
+
+            return new SongInfo(
+                    song.getId(),
+                    song.getTitle(),
+                    new ArtistInfo(artist),
+                    song.getAlbum().getImageUrl()
+            );
+        }
     }
 
     public record ArtistInfo(
@@ -50,6 +59,9 @@ public record ChartResponse(
             String name
     ) {
 
+        public ArtistInfo(Artist artist) {
+            this(artist.getId(), artist.getName());
+        }
     }
 }
 
