@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,12 @@ import org.sopt.collaboration.melon.domain.user.entity.User;
 
 @Entity
 @Getter
-@Table(name = "likes")
+@Table(name = "likes",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_likes_user_song",
+                columnNames = {"user_id", "song_id"}
+        )
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Like {
 
@@ -39,4 +45,15 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id", insertable = false, updatable = false)
     private Song song;
+
+    private Like(Long userId, Long songId) {
+        this.userId = userId;
+        this.songId = songId;
+    }
+
+    public static Like create(Long userId, Long songId) {
+        return new Like(userId, songId);
+    }
+
+
 }
