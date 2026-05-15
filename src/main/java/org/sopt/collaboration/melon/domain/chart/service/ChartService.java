@@ -18,9 +18,9 @@ public class ChartService {
 
     public List<Song> findChartSongByFilter(final ChartFilterType chartFilterType) {
         return switch (chartFilterType) {
-            case TOP100 -> songDetailRepository.findTop100Chart();
+            case TOP100 -> songDetailRepository.findTopSongs();
             case HOT100 -> songDetailRepository.findHot100Chart();
-            case ABROAD_2006, SWEET -> songDetailRepository.readChart();
+            case ABROAD_2006, SWEET -> songDetailRepository.readSongs();
         };
     }
 
