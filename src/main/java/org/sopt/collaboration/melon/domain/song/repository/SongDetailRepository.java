@@ -19,7 +19,7 @@ public interface SongDetailRepository extends JpaRepository<SongDetail, Long> {
                 join fetch s.album
                 order by sd.playCount desc
             """)
-    List<Song> findTop100Chart();
+    List<Song> findTopSongs();
 
     @Query("""
                 select s
@@ -28,8 +28,8 @@ public interface SongDetailRepository extends JpaRepository<SongDetail, Long> {
                 join fetch s.album
                 join SongArtist sa on sa.song.id = s.id
                 join sa.artist a
-                join ArtistDetail ad on ad.artist.id = a.id
-                group by s.id, s.title, s.playTime, s.album, s.createdAt, s.updatedAt, sd.likeCount
+                left join ArtistDetail ad on ad.artist.id = a.id
+                group by s, sd.likeCount
                 order by (sd.likeCount + coalesce(sum(ad.fanCount), 0)) desc
             """)
     List<Song> findHot100Chart();
@@ -39,8 +39,17 @@ public interface SongDetailRepository extends JpaRepository<SongDetail, Long> {
                 from SongDetail sd
                 join sd.song s
                 join fetch s.album
+                order by sd.likeCount desc
             """)
-    List<Song> readChart();
+    List<Song> findHotSongs();
+
+    @Query("""
+                select s
+                from SongDetail sd
+                join sd.song s
+                join fetch s.album
+            """)
+    List<Song> readSongs();
 
     @Lock(LockModeType.OPTIMISTIC)
     @Query("""

@@ -37,4 +37,11 @@ public class SongArtistService {
                 ));
     }
 
+    public List<Song> findArtistSongBySort(Long artistId, List<Song> sortedSong) {
+        List<Long> artistSongIds = songArtistRepository.findSongIdsByArtistId(artistId);
+        return sortedSong.stream()
+                .filter(song -> artistSongIds.contains(song.getId()))
+                .toList();
+    }
+
 }
