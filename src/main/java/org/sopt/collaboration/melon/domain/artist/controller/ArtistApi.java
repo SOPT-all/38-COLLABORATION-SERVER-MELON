@@ -23,9 +23,10 @@ public interface ArtistApi {
             @PathVariable Long artistId
     );
 
-    @ApiExceptions({InvalidSortFilterException.class})
+    @ApiExceptions({InvalidSortFilterException.class, UserNotFoundException.class})
     @Operation(summary = "아티스트 곡 목록 조회", description = "아티스트 곡 목록을 조회합니다.")
     CommonResponse<ArtistSongResponse> getArtistSongs(
+            @RequestHeader("User-Id") Long userId,
             @PathVariable Long artistId,
             @RequestParam String sort
     );

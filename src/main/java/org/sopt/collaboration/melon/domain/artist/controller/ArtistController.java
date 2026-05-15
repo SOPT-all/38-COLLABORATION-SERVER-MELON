@@ -58,9 +58,11 @@ public class ArtistController implements ArtistApi {
 
     @GetMapping("/{artistId}/songs")
     public CommonResponse<ArtistSongResponse> getArtistSongs(
+            @RequestHeader("User-Id") Long userId,
             @PathVariable Long artistId,
             @RequestParam(defaultValue = "HOT") String sort
     ) {
+        userValidator.validate(userId);
         Artist artist = artistService.readOrThrow(artistId);
 
         List<Song> sortedSong = songService.findSongBySortFilter(ArtistSongSortFilter.from(sort));
