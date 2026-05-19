@@ -1,6 +1,7 @@
 package org.sopt.collaboration.melon.domain.artist.controller.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.YearMonth;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.sopt.collaboration.melon.domain.album.entity.Album;
 import org.sopt.collaboration.melon.domain.artist.entity.Artist;
 import org.sopt.collaboration.melon.domain.artist.entity.ArtistDetail;
 import org.sopt.collaboration.melon.domain.artist.entity.ArtistType;
+import org.sopt.collaboration.melon.domain.artist.entity.Gender;
 import org.sopt.collaboration.melon.domain.artist.service.vo.ArtistWithDetail;
 
 public record ArtistDetailResponse(
@@ -32,8 +34,12 @@ public record ArtistDetailResponse(
         List<AlbumInfo> recentAlbums,
         @Schema(description = "크레딧", example = "발매곡 69")
         String credit,
+        @Schema(description = "데뷔연월", example = "2026-02")
+        YearMonth yearMonth,
         @Schema(description = "국가", example = "대한민국")
         String country,
+        @Schema(description = "성별", example = "M")
+        Gender gender,
         @Schema(description = "소속사", example = "어트랙트")
         String agency,
         @Schema(description = "수상 이력 목록")
@@ -66,7 +72,9 @@ public record ArtistDetailResponse(
                         )
                         .toList(),
                 detail.getCredit(),
+                detail.getDebutYearMonth(),
                 detail.getCountry(),
+                detail.getGender(),
                 detail.getAgency(),
                 Arrays.asList(detail.getAwardHistory().split("\\|")),
                 detail.getDescription()
